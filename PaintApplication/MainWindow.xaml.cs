@@ -128,10 +128,10 @@ namespace PaintApplication
                 fs.Close();
             }
         }
-        //FIX LATER
+
         private void RestartButton_Click(object sender, RoutedEventArgs e)
         {
-           // DrawingCanvas.Strokes.RemoveAll();
+            DrawingCanvas.Strokes.Clear();
         }
 
         //returns byte array of the inkcanvas to store in a DB
@@ -142,6 +142,7 @@ namespace PaintApplication
             byte[] bytes = ms.ToArray();
             return bytes;
         }
+
         //saves only the ink /CREATE
         private void SaveInkButton_Click(object sender, RoutedEventArgs e)
         {
@@ -156,14 +157,29 @@ namespace PaintApplication
             db.SaveChanges();
         }
 
+        //loads DATA grid
         private void LoadInkDataButton_Click(object sender, RoutedEventArgs e)
         {
             LocalBlobDbEntities db = new LocalBlobDbEntities();
             this.gridCanvas.ItemsSource = db.Tables.ToList();
         }
 
-   
+        private void gridCanvas_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Table ink = (Table) this.gridCanvas.SelectedItem;
+            byte[] bytes = ink.CanvasStrokes;
+            Stream stream = new MemoryStream(bytes);
+            DrawingCanvas.Strokes = new System.Windows.Ink.StrokeCollection(stream);
 
+        }
+
+        //update
+        private void EditButton_Click(object sender, RoutedEventArgs e)
+        {
+            LocalBlobDbEntities db = new LocalBlobDbEntities();
+        }
+
+      
         //the following code is still a WIP
 
         /*the idea here was to create a "spray paint" effect by coloring random dots within a radius, I created the method that calculates
@@ -219,6 +235,8 @@ namespace PaintApplication
                 DrawingCanvas.Width -= 5;
             }
         }
+
+     
 
     }
 }

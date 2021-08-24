@@ -181,10 +181,10 @@
       <LastGenOutput>InkModel.cs</LastGenOutput>
     </Content>
     <Content Include="LocalBlobDb.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="LocalBlobDb_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>LocalBlobDb.mdf</DependentUpon>
     </Content>
   </ItemGroup>
