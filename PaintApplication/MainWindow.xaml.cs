@@ -41,21 +41,7 @@ namespace PaintApplication
         {
             var radiobutton = sender as RadioButton;
             string radioBpressed = radiobutton.Content.ToString();
-            if (radioBpressed == "Load Image")
-            {
-                OpenFileDialog op = new OpenFileDialog();
-                op.Title = "Select a picture";
-                op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
-                  "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
-                  "Portable Network Graphic (*.png)|*.png";
-                if (op.ShowDialog() == true)
-                {
-                    ImageBrush imageBrush = new ImageBrush();
-                    imageBrush.ImageSource = new BitmapImage(new Uri(op.FileName));
-                    DrawingCanvas.Background = imageBrush;
-                }
-            }
-            else if (radioBpressed == "Draw")
+            if (radioBpressed == "Draw")
             {
                 this.DrawingCanvas.EditingMode = InkCanvasEditingMode.Ink;
             }
@@ -65,7 +51,20 @@ namespace PaintApplication
             }
 
         }
-
+        private void LoadIMGButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+              "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+              "Portable Network Graphic (*.png)|*.png";
+            if (op.ShowDialog() == true)
+            {
+                ImageBrush imageBrush = new ImageBrush();
+                imageBrush.ImageSource = new BitmapImage(new Uri(op.FileName));
+                DrawingCanvas.Background = imageBrush;
+            }
+        }
         private void ToolButton_Click(object sender, RoutedEventArgs e)
         {
             var radiobutton = sender as RadioButton;
@@ -148,6 +147,8 @@ namespace PaintApplication
         {
             LocalBlobDbEntities db = new LocalBlobDbEntities();
 
+            //accidentally made the table name "table", table here refers to a 
+            //new INK object. (I'm scared to touch the DB since its already created)
             Table newInk = new Table()
             {
                 CanvasStrokes = getByteArray(),
@@ -157,7 +158,7 @@ namespace PaintApplication
             db.SaveChanges();
         }
 
-        //loads DATA grid
+        //loads DATA for data grid
         private void LoadInkDataButton_Click(object sender, RoutedEventArgs e)
         {
             LocalBlobDbEntities db = new LocalBlobDbEntities();
