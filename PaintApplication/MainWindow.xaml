@@ -74,11 +74,11 @@
                             <DrawingAttributes x:Name="strokeAttribute" Width="3" Height="3" Color="Black"/>
                         </InkCanvas.DefaultDrawingAttributes>
                     </InkCanvas>
-                    <RadioButton Content="Draw" Height="50" Width="80" GroupName="DrawGroup" Click="DrawButton_Click" Grid.Column="4" Margin="125,131,12,13" Grid.Row="2" />
-                    <RadioButton Content="Erase" Height="50" Width="80" GroupName="DrawGroup" Click="DrawButton_Click" Margin="40,131,97,13" Grid.Column="4" Grid.Row="2" />
-                    <Expander ExpandDirection="Left" Grid.Column="4" Header="Tools" HorizontalAlignment="Left"  Margin="88,55,0,0" Grid.Row="2" VerticalAlignment="Top" Width="119" Background="#FFEEEEEE" Height="71">
+                    <RadioButton Content="Draw" Height="50" Width="80" GroupName="DrawGroup" Click="DrawButton_Click" Grid.Column="4" Margin="125,135,12,9" Grid.Row="2" />
+                    <RadioButton Content="Erase" Height="50" Width="80" GroupName="DrawGroup" Click="DrawButton_Click" Margin="40,135,97,9" Grid.Column="4" Grid.Row="2" />
+                    <Expander ExpandDirection="Left" Grid.Column="4" Header="Tools" HorizontalAlignment="Left"  Margin="88,64,0,0" Grid.Row="2" VerticalAlignment="Top" Width="119" Background="#FFEEEEEE" Height="71">
                         <ScrollViewer Height="50">
-                            <Grid Background="#FFE5E5E5">
+                            <Grid Background="#FFEEF5FD">
                                 <RadioButton  Content="Air Brush" GroupName="ToolGroup" Click="ToolButton_Click"  Margin="2,2,-2,-2"  />
                                 <RadioButton  Content="Pen" GroupName="ToolGroup" Click="ToolButton_Click" Margin="2,18,-2,-18" />
                                 <RadioButton Content="Marker" GroupName="ToolGroup" Click="ToolButton_Click" Margin="2,34,-2,-34" />
@@ -87,25 +87,21 @@
                         </ScrollViewer>
 
                     </Expander>
-                    <Expander ExpandDirection="Left" Grid.Column="4" Header="Color" HorizontalAlignment="Left"  Margin="125,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="82" Height="73">
-                        <Grid Background="#FFE5E5E5">
+                    <Expander ExpandDirection="Left" Grid.Column="4" Header="Color" HorizontalAlignment="Left"  Margin="125,15,0,0" Grid.Row="1" VerticalAlignment="Top" Width="82" Height="73">
+                        <Grid Background="#FFEEF5FD" Margin="-36,0,0,0">
                             <xctk:ColorPicker x:Name="_colorPicker"
                                               Height="25"
-                                 SelectedColorChanged="ClrPcker_Background_SelectedColorChanged"/>
+                                 SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" Margin="-28,24,0,24"/>
+                           
                         </Grid>
                     </Expander>
 
-                    <Expander ExpandDirection="Left" Grid.Column="4" Header="Brush Size" HorizontalAlignment="Left"  Margin="61,79,0,0" Grid.Row="1" VerticalAlignment="Top" Width="146" Grid.RowSpan="2" Height="98">
-                        <Grid Background="#FFE5E5E5" Width="100" Margin="-24,0,38,0">
-                            <mah:NumericUpDown Minimum="0"
-                               Maximum="10000"
-                               Interval="100"
-                               StringFormat="C2" 
-                               HideUpDownButtons="False" Margin="-23,0,23,0" />
+                    <Expander ExpandDirection="Left" Grid.Column="4" Header="Brush Size" HorizontalAlignment="Left"  Margin="61,88,0,0" Grid.Row="1" VerticalAlignment="Top" Width="146" Grid.RowSpan="2" Height="98">
+                        <Grid Background="#FFEEF5FD" Margin="0,0,0,61">
+                            <xctk:ByteUpDown Name="numUpDown" Minimum="1" Maximum="100" ValueChanged="NumericUpDown_BrushSizeChanged" Margin="0,31,0,-31"/>
                         </Grid>
                     </Expander>
-                    <Rectangle Grid.ColumnSpan="5" Margin="0,68,0,3" Fill="Black" />
-
+                  
                 </Grid>
             </TabItem>
 

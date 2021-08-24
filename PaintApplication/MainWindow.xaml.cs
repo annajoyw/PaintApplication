@@ -96,10 +96,11 @@ namespace PaintApplication
         }
 
         //fix this later
-        private void NumericUpDown_BrushSize(object sender, RoutedEventArgs e)
+        private void NumericUpDown_BrushSizeChanged(object sender, RoutedEventArgs e)
         {
-            //strokeAttribute.Width = (double)e.NewValue;
-            //strokeAttribute.Height = (double)e.NewValue;
+            strokeAttribute.Width = (double)numUpDown.Value;
+            strokeAttribute.Height = (double)numUpDown.Value;
+         
         }
 
         //saves new image with ink
