@@ -13,10 +13,10 @@ namespace PaintApplication
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class LocalBlobDbEntities : DbContext
+    public partial class CanvasDbEntities : DbContext
     {
-        public LocalBlobDbEntities()
-            : base("name=LocalBlobDbEntities")
+        public CanvasDbEntities()
+            : base("name=CanvasDbEntities")
         {
         }
     
@@ -25,6 +25,6 @@ namespace PaintApplication
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Table> Tables { get; set; }
+        public virtual DbSet<Canva> Canvas { get; set; }
     }
 }

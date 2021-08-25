@@ -26,8 +26,8 @@ namespace PaintApplication
         public MainWindow()
         {
             InitializeComponent();
-            LocalBlobDbEntities db = new LocalBlobDbEntities();
-            var strokes = from s in db.Tables
+            InkDbEntities db = new InkDbEntities();
+            var strokes = from s in db.Inks
                           select s;
             foreach (var item in strokes)
             {
@@ -100,7 +100,6 @@ namespace PaintApplication
         {
             strokeAttribute.Width = (double)numUpDown.Value;
             strokeAttribute.Height = (double)numUpDown.Value;
-         
         }
 
         //saves new image with ink
@@ -146,30 +145,30 @@ namespace PaintApplication
         //saves only the ink /CREATE
         private void SaveInkButton_Click(object sender, RoutedEventArgs e)
         {
-            LocalBlobDbEntities db = new LocalBlobDbEntities();
+            InkDbEntities db = new InkDbEntities();
 
             //accidentally made the table name "table", table here refers to a 
             //new INK object. (I'm scared to touch the DB since its already created)
-            Table newInk = new Table()
+            Ink newInk = new Ink()
             {
-                CanvasStrokes = getByteArray(),
+                Strokes = getByteArray(),
                 CreatedUtc = DateTime.Now
             };
-            db.Tables.Add(newInk);
+            db.Inks.Add(newInk);
             db.SaveChanges();
         }
 
         //loads DATA for data grid
         private void LoadInkDataButton_Click(object sender, RoutedEventArgs e)
         {
-            LocalBlobDbEntities db = new LocalBlobDbEntities();
-            this.gridCanvas.ItemsSource = db.Tables.ToList();
+            InkDbEntities db = new InkDbEntities();
+            gridCanvas.ItemsSource = db.Inks.ToList();
         }
 
         private void gridCanvas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Table ink = (Table) this.gridCanvas.SelectedItem;
-            byte[] bytes = ink.CanvasStrokes;
+            Ink ink = (Ink) this.gridCanvas.SelectedItem;
+            byte[] bytes = ink.Strokes;
             Stream stream = new MemoryStream(bytes);
             DrawingCanvas.Strokes = new System.Windows.Ink.StrokeCollection(stream);
 
@@ -178,7 +177,7 @@ namespace PaintApplication
         //update
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            LocalBlobDbEntities db = new LocalBlobDbEntities();
+            
         }
 
       

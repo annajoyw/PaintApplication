@@ -77,14 +77,16 @@
                     <RadioButton Content="Draw" Height="50" Width="80" GroupName="DrawGroup" Click="DrawButton_Click" Grid.Column="4" Margin="125,135,12,9" Grid.Row="2" />
                     <RadioButton Content="Erase" Height="50" Width="80" GroupName="DrawGroup" Click="DrawButton_Click" Margin="40,135,97,9" Grid.Column="4" Grid.Row="2" />
                     <Expander ExpandDirection="Left" Grid.Column="4" Header="Tools" HorizontalAlignment="Left"  Margin="88,64,0,0" Grid.Row="2" VerticalAlignment="Top" Width="119" Background="#FFEEEEEE" Height="71">
-                        <ScrollViewer Height="50">
-                            <Grid Background="#FFEEF5FD">
-                                <RadioButton  Content="Air Brush" GroupName="ToolGroup" Click="ToolButton_Click"  Margin="2,2,-2,-2"  />
-                                <RadioButton  Content="Pen" GroupName="ToolGroup" Click="ToolButton_Click" Margin="2,18,-2,-18" />
-                                <RadioButton Content="Marker" GroupName="ToolGroup" Click="ToolButton_Click" Margin="2,34,-2,-34" />
-                                <RadioButton  Content="Highlighter" GroupName="ToolGroup" Click="ToolButton_Click" Margin="2,50,-2,-50" />
+                        
+                            <Grid Background="#FFEEF5FD" Margin="-79,0,0,0">
+                                
+                                    <RadioButton  Content="Air Brush" GroupName="ToolGroup" Click="ToolButton_Click"  Margin="89,33,0,20"  />
+                                    <RadioButton  Content="Pen" GroupName="ToolGroup" Click="ToolButton_Click" Margin="92,10,28,43" Width="46" />
+                                    <RadioButton Content="Marker" GroupName="ToolGroup" Click="ToolButton_Click" Margin="0,33,105,20" />
+                                    <RadioButton  Content="Highlighter" GroupName="ToolGroup" Click="ToolButton_Click" Margin="0,10,83,43" />
+                               
                             </Grid>
-                        </ScrollViewer>
+                        
 
                     </Expander>
                     <Expander ExpandDirection="Left" Grid.Column="4" Header="Color" HorizontalAlignment="Left"  Margin="125,15,0,0" Grid.Row="1" VerticalAlignment="Top" Width="82" Height="73">

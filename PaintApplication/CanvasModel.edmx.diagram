@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ad3353f5aa1b41a5990942ded0ef4d13" Name="Diagram1">
-        <EntityTypeShape EntityType="LocalBlobDbModel.Table" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="bfda47158c224d7789828234233413e8" Name="Diagram1">
+        <EntityTypeShape EntityType="CanvasDbModel.Canva" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

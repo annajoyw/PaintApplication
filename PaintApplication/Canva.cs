@@ -12,10 +12,11 @@ namespace PaintApplication
     using System;
     using System.Collections.Generic;
     
-    public partial class Table
+    public partial class Canva
     {
         public int Id { get; set; }
-        public byte[] CanvasStrokes { get; set; }
+        public byte[] InkStrokes { get; set; }
+        public byte[] UserPhoto { get; set; }
         public Nullable<System.DateTimeOffset> CreatedUtc { get; set; }
     }
 }

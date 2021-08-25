@@ -119,14 +119,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="InkModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>InkModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Table.cs">
-      <DependentUpon>InkModel.tt</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -135,10 +127,18 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Ink.cs">
+      <DependentUpon>InkModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="InkModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>InkModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InkModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>InkModel.tt</DependentUpon>
     </Compile>
     <Compile Include="InkModel.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -188,25 +188,6 @@
     <Resource Include="giphy.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="InkModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>InkModel.edmx</DependentUpon>
-      <LastGenOutput>InkModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="InkModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>InkModel.edmx</DependentUpon>
-      <LastGenOutput>InkModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="LocalBlobDb.mdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="LocalBlobDb_log.ldf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <DependentUpon>LocalBlobDb.mdf</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
@@ -220,6 +201,25 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="InkDb.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="InkDb_log.ldf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <DependentUpon>InkDb.mdf</DependentUpon>
+    </Content>
+    <Content Include="InkModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InkModel.edmx</DependentUpon>
+      <LastGenOutput>InkModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="InkModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>InkModel.edmx</DependentUpon>
+      <LastGenOutput>InkModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
