@@ -26,15 +26,15 @@ namespace PaintApplication
         public MainWindow()
         {
             InitializeComponent();
-            InkDbEntities db = new InkDbEntities();
-            var strokes = from s in db.Inks
+            CanvasDbEntities db = new CanvasDbEntities();
+            var canvas = from s in db.Canvas
                           select s;
-            foreach (var item in strokes)
+            foreach (var item in canvas)
             {
                 Console.WriteLine(item.Id);
             }
 
-            this.gridCanvas.ItemsSource = strokes.ToList();
+            this.gridCanvas.ItemsSource = canvas.ToList();
         }
 
         private void DrawButton_Click(object sender, RoutedEventArgs e)
@@ -134,7 +134,7 @@ namespace PaintApplication
         }
 
         //returns byte array of the inkcanvas to store in a DB
-        private byte[] getByteArray()
+        private byte[] GetInkByteArray()
         {
             MemoryStream ms = new MemoryStream();
             DrawingCanvas.Strokes.Save(ms);
@@ -142,33 +142,62 @@ namespace PaintApplication
             return bytes;
         }
 
+        private byte[] GetBitMapOfCanvasBackground()
+        {
+            //strokes are cleared so that ink can be edited in the future
+            DrawingCanvas.Strokes.Clear();
+
+            MemoryStream ms = new MemoryStream();
+
+            //this is the same code used to "save as new image", so essentially 
+            //I saved a new image of just the background and used that to save to the db
+            //this is not the best practice and is a bit over-complicated, but I was struggling to figure out
+            //How to save DrawingCanvas.Background as a byte array
+            
+            int marg = int.Parse(DrawingCanvas.Margin.Left.ToString());
+            RenderTargetBitmap rtb =
+                    new RenderTargetBitmap((int)DrawingCanvas.ActualWidth - marg,
+                            (int)DrawingCanvas.ActualHeight - marg, 0, 0,
+                        PixelFormats.Default);
+            rtb.Render(DrawingCanvas);
+            BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+
+            encoder.Save(ms);
+
+            byte[] bytes = ms.ToArray();
+
+            return bytes;
+        }
+
         //saves only the ink /CREATE
         private void SaveInkButton_Click(object sender, RoutedEventArgs e)
         {
-            InkDbEntities db = new InkDbEntities();
+            CanvasDbEntities db = new CanvasDbEntities();
 
             //accidentally made the table name "table", table here refers to a 
             //new INK object. (I'm scared to touch the DB since its already created)
-            Ink newInk = new Ink()
+            Canva newCanvas = new Canva()
             {
-                Strokes = getByteArray(),
-                CreatedUtc = DateTime.Now
+                InkStrokes = GetInkByteArray(),
+                CreatedUtc = DateTime.Now,
+                UserPhoto = GetBitMapOfCanvasBackground()
             };
-            db.Inks.Add(newInk);
+            db.Canvas.Add(newCanvas);
             db.SaveChanges();
         }
 
         //loads DATA for data grid
         private void LoadInkDataButton_Click(object sender, RoutedEventArgs e)
         {
-            InkDbEntities db = new InkDbEntities();
-            gridCanvas.ItemsSource = db.Inks.ToList();
+            CanvasDbEntities db = new CanvasDbEntities();
+            gridCanvas.ItemsSource = db.Canvas.ToList();
         }
 
         private void gridCanvas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Ink ink = (Ink) this.gridCanvas.SelectedItem;
-            byte[] bytes = ink.Strokes;
+            Canva canvas = (Canva) this.gridCanvas.SelectedItem;
+            byte[] bytes = canvas.InkStrokes;
             Stream stream = new MemoryStream(bytes);
             DrawingCanvas.Strokes = new System.Windows.Ink.StrokeCollection(stream);
 

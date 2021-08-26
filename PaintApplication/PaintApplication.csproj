@@ -17,6 +17,7 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -29,7 +30,6 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -127,23 +127,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Ink.cs">
-      <DependentUpon>InkModel.tt</DependentUpon>
+    <Compile Include="Canva.cs">
+      <DependentUpon>CanvasModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="InkModel.Context.cs">
+    <Compile Include="CanvasModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InkModel.Context.tt</DependentUpon>
+      <DependentUpon>CanvasModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="InkModel.cs">
+    <Compile Include="CanvasModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InkModel.tt</DependentUpon>
+      <DependentUpon>CanvasModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="InkModel.Designer.cs">
+    <Compile Include="CanvasModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>InkModel.edmx</DependentUpon>
+      <DependentUpon>CanvasModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -168,12 +168,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EntityDeploy Include="InkModel.edmx">
+    <EntityDeploy Include="CanvasModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>InkModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>CanvasModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="InkModel.edmx.diagram">
-      <DependentUpon>InkModel.edmx</DependentUpon>
+    <None Include="CanvasModel.edmx.diagram">
+      <DependentUpon>CanvasModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -203,22 +203,22 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="InkDb.mdf">
+    <Content Include="CanvasDb.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="InkDb_log.ldf">
+    <Content Include="CanvasDb_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>InkDb.mdf</DependentUpon>
+      <DependentUpon>CanvasDb.mdf</DependentUpon>
     </Content>
-    <Content Include="InkModel.Context.tt">
+    <Content Include="CanvasModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>InkModel.edmx</DependentUpon>
-      <LastGenOutput>InkModel.Context.cs</LastGenOutput>
+      <DependentUpon>CanvasModel.edmx</DependentUpon>
+      <LastGenOutput>CanvasModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="InkModel.tt">
+    <Content Include="CanvasModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>InkModel.edmx</DependentUpon>
-      <LastGenOutput>InkModel.cs</LastGenOutput>
+      <DependentUpon>CanvasModel.edmx</DependentUpon>
+      <LastGenOutput>CanvasModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
