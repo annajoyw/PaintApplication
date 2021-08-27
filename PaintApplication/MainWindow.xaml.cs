@@ -140,17 +140,6 @@ namespace PaintApplication
                 encoder.Save(fs);
                 fs.Close();
 
-                //int marg = int.Parse(DrawingCanvas.Margin.Left.ToString());
-                //RenderTargetBitmap rtb =
-                //        new RenderTargetBitmap((int)DrawingCanvas.ActualWidth - marg,
-                //                (int)DrawingCanvas.ActualHeight - marg, 0, 0,
-                //            PixelFormats.Default);
-                //rtb.Render(DrawingCanvas);
-                //BmpBitmapEncoder encoder = new BmpBitmapEncoder();
-                //encoder.Frames.Add(BitmapFrame.Create(rtb));
-
-                //encoder.Save(fs);
-                //fs.Close();
             }
         }
 
@@ -211,7 +200,6 @@ namespace PaintApplication
         {
             CanvasDbEntities db = new CanvasDbEntities();
 
-            
             Canva newCanvas = new Canva()
             {
                 InkStrokes = GetInkByteArray(),
@@ -224,17 +212,15 @@ namespace PaintApplication
             gridCanvas.ItemsSource = db.Canvas.ToList();
         }
 
-        //loads DATA for data grid
-        private void LoadInkDataButton_Click(object sender, RoutedEventArgs e)
+        private StrokeCollection DisplayCanvasStrokeBytes(byte[] array)
         {
-            CanvasDbEntities db = new CanvasDbEntities();
-            gridCanvas.ItemsSource = db.Canvas.ToList();
-        }
-
-        //private StrokeCollection DisplayCanvasStrokeBytes(byte[] array)
-        //{
+            MemoryStream ms;
+            ms = new MemoryStream(array);
+            StrokeCollection strokes = new StrokeCollection(ms);
+            return strokes;
             
-        //}
+            
+        }
 
         private ImageBrush DisplayBackgroundImageBytes(byte[] array)
         {
@@ -264,7 +250,7 @@ namespace PaintApplication
                 if (this.gridCanvas.SelectedItems[0].GetType() == typeof(Canva))
                 {
                     Canva c = (Canva)this.gridCanvas.SelectedItems[0];
-                    //DrawingCanvas.Strokes = c.InkStrokes;
+                    DrawingCanvas.Strokes = DisplayCanvasStrokeBytes(c.InkStrokes);
                     DrawingCanvas.Background = DisplayBackgroundImageBytes(c.UserPhoto);
                 }
             }
@@ -325,9 +311,6 @@ namespace PaintApplication
                 DrawingCanvas.Width -= 5;
             }
         }
-
-     
-
     }
 }
 
