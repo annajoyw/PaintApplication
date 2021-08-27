@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 
 namespace PaintApplication
 {
@@ -92,7 +94,7 @@ namespace PaintApplication
 
         private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedEventArgs e)
         {
-            strokeAttribute.Color = (Color)_colorPicker.SelectedColor;
+            strokeAttribute.Color = (System.Windows.Media.Color)_colorPicker.SelectedColor;
         }
 
         //fix this later
@@ -112,19 +114,43 @@ namespace PaintApplication
 
             if (saveFileDialog1.ShowDialog() == true)
             {
+
                 FileStream fs = new FileStream(saveFileDialog1.FileName,
                                                FileMode.Create);
-                int marg = int.Parse(DrawingCanvas.Margin.Left.ToString());
+
+                var visual = new DrawingVisual();
+
+                var rect = new Rect(DrawingCanvas.RenderSize);
+                using (var dc = visual.RenderOpen())
+                {
+                    dc.DrawRectangle(new VisualBrush(DrawingCanvas), null, rect);
+                }
+
+                //int marg = int.Parse(DrawingCanvas.Margin.Left.ToString());
+
                 RenderTargetBitmap rtb =
-                        new RenderTargetBitmap((int)DrawingCanvas.ActualWidth - marg,
-                                (int)DrawingCanvas.ActualHeight - marg, 0, 0,
+                        new RenderTargetBitmap((int)rect.Width,
+                                (int)rect.Height, 0, 0,
                             PixelFormats.Default);
-                rtb.Render(DrawingCanvas);
+
+                rtb.Render(visual);
                 BmpBitmapEncoder encoder = new BmpBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(rtb));
 
                 encoder.Save(fs);
                 fs.Close();
+
+                //int marg = int.Parse(DrawingCanvas.Margin.Left.ToString());
+                //RenderTargetBitmap rtb =
+                //        new RenderTargetBitmap((int)DrawingCanvas.ActualWidth - marg,
+                //                (int)DrawingCanvas.ActualHeight - marg, 0, 0,
+                //            PixelFormats.Default);
+                //rtb.Render(DrawingCanvas);
+                //BmpBitmapEncoder encoder = new BmpBitmapEncoder();
+                //encoder.Frames.Add(BitmapFrame.Create(rtb));
+
+                //encoder.Save(fs);
+                //fs.Close();
             }
         }
 
@@ -153,13 +179,23 @@ namespace PaintApplication
             //I saved a new image of just the background and used that to save to the db
             //this is not the best practice and is a bit over-complicated, but I was struggling to figure out
             //How to save DrawingCanvas.Background as a byte array
+
+            var visual = new DrawingVisual();
             
-            int marg = int.Parse(DrawingCanvas.Margin.Left.ToString());
+            var rect = new Rect(DrawingCanvas.RenderSize);
+            using (var dc = visual.RenderOpen())
+            {
+                dc.DrawRectangle(new VisualBrush(DrawingCanvas), null, rect);
+            }
+
+            //int marg = int.Parse(DrawingCanvas.Margin.Left.ToString());
+
             RenderTargetBitmap rtb =
-                    new RenderTargetBitmap((int)DrawingCanvas.ActualWidth - marg,
-                            (int)DrawingCanvas.ActualHeight - marg, 0, 0,
+                    new RenderTargetBitmap((int)rect.Width,
+                            (int)rect.Height, 0, 0,
                         PixelFormats.Default);
-            rtb.Render(DrawingCanvas);
+
+            rtb.Render(visual);
             BmpBitmapEncoder encoder = new BmpBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(rtb));
 
@@ -170,13 +206,12 @@ namespace PaintApplication
             return bytes;
         }
 
-        //saves only the ink /CREATE
+        //save /CREATE
         private void SaveInkButton_Click(object sender, RoutedEventArgs e)
         {
             CanvasDbEntities db = new CanvasDbEntities();
 
-            //accidentally made the table name "table", table here refers to a 
-            //new INK object. (I'm scared to touch the DB since its already created)
+            
             Canva newCanvas = new Canva()
             {
                 InkStrokes = GetInkByteArray(),
@@ -185,6 +220,8 @@ namespace PaintApplication
             };
             db.Canvas.Add(newCanvas);
             db.SaveChanges();
+
+            gridCanvas.ItemsSource = db.Canvas.ToList();
         }
 
         //loads DATA for data grid
@@ -194,22 +231,45 @@ namespace PaintApplication
             gridCanvas.ItemsSource = db.Canvas.ToList();
         }
 
+        //private StrokeCollection DisplayCanvasStrokeBytes(byte[] array)
+        //{
+            
+        //}
+
+        private ImageBrush DisplayBackgroundImageBytes(byte[] array)
+        {
+            ImageBrush brush;
+            BitmapImage bi;
+            using (var ms = new MemoryStream(array))
+            {
+                brush = new ImageBrush();
+
+                bi = new BitmapImage();
+                bi.BeginInit();
+                bi.CreateOptions = BitmapCreateOptions.None;
+                bi.CacheOption = BitmapCacheOption.OnLoad;
+                bi.StreamSource = ms;
+                bi.EndInit();
+            }
+
+            brush.ImageSource = bi;
+            
+            return brush;
+        }
+
         private void gridCanvas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Canva canvas = (Canva) this.gridCanvas.SelectedItem;
-            byte[] bytes = canvas.InkStrokes;
-            Stream stream = new MemoryStream(bytes);
-            DrawingCanvas.Strokes = new System.Windows.Ink.StrokeCollection(stream);
-
+            if (this.gridCanvas.SelectedIndex >= 0 && this.gridCanvas.SelectedItems.Count >= 0)
+            {
+                if (this.gridCanvas.SelectedItems[0].GetType() == typeof(Canva))
+                {
+                    Canva c = (Canva)this.gridCanvas.SelectedItems[0];
+                    //DrawingCanvas.Strokes = c.InkStrokes;
+                    DrawingCanvas.Background = DisplayBackgroundImageBytes(c.UserPhoto);
+                }
+            }
         }
 
-        //update
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-      
         //the following code is still a WIP
 
         /*the idea here was to create a "spray paint" effect by coloring random dots within a radius, I created the method that calculates
